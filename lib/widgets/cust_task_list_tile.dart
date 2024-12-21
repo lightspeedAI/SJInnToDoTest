@@ -3,10 +3,10 @@ import 'package:to_do_list/screens/edItem.dart';
 import 'package:to_do_list/database/task.dart';
 
 class CustItemListTile extends StatelessWidget {
-  final Task item;
+  final Task task;
   final VoidCallback refreshPg;
   const CustItemListTile(
-      {super.key, required this.item, required this.refreshPg});
+      {super.key, required this.task, required this.refreshPg});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class CustItemListTile extends StatelessWidget {
       onTap: () async {
         //navigate to page to edit transaction info
         String? received = await Navigator.push(context,
-            MaterialPageRoute(builder: (context) => EdItem(itemInfo: item)));
+            MaterialPageRoute(builder: (context) => EdItem(itemInfo: task)));
         if (received == 'refresh') {
           //refresh the page
           refreshPg.call();
@@ -30,16 +30,16 @@ class CustItemListTile extends StatelessWidget {
           children: [
             SizedBox(
               width: 85,
-              child: Text(item.dueDate),
+              child: Text(task.dueDate),
             ),
             SizedBox(
               width: 135,
-              child: Text(item.taskTitle),
+              child: Text(task.taskTitle),
             ),
-            // SizedBox(
-            //   width: 65,
-            //   child: Text(item.itemPrice.toString()),
-            // ),
+            SizedBox(
+              width: 75,
+              child: Text(task.status.toString()),
+            ),
           ],
         ),
       ),

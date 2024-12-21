@@ -2,6 +2,7 @@ import 'package:to_do_list/constants/styles.dart';
 import 'package:to_do_list/screens/editItem.dart';
 import 'package:to_do_list/screens/viewExpenses1.dart';
 import 'package:flutter/material.dart';
+import 'package:to_do_list/screens/view_tasks.dart';
 import 'package:to_do_list/widgets/cust_icon.dart';
 import 'add_task.dart';
 
@@ -23,12 +24,13 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
           child: ListView(
-            children: <Widget>[              
+            children: <Widget>[
+              // SizedBox(height: 50,),
               SizedBox(
                 height: MediaQuery.of(context).size.height ,                
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
+                  children: [                    
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -68,8 +70,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           iconColor: color3,
                           textColor: Colors.white,
                           iconText: "View Tasks",
-                          pageToNav: (context) => const ViewExpenses1(),
+                          pageToNav: (context) => const ViewTasks(),
                         ),
+                        // CustomIcon(
+                        //   insideIcon: Icon(
+                        //     Icons.search_rounded,
+                        //     color: Colors.white,
+                        //     size: MediaQuery.of(context).size.width / 3.5,
+                        //   ),
+                        //   iconColor: color3,
+                        //   textColor: Colors.white,
+                        //   iconText: "Search Tasks",
+                        //   pageToNav: (context) => const EditItem(),
+                        // ),
                         CustomIcon(
                           insideIcon: Icon(
                             Icons.delete,

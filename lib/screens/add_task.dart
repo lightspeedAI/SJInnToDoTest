@@ -19,7 +19,7 @@ class _AddTaskState extends State<AddTask> {
 
   TextEditingController taskTitle = TextEditingController();
   TextEditingController dueDate = TextEditingController();
-  // TextEditingController desc = TextEditingController(); 
+  // TextEditingController desc = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +87,7 @@ class _AddTaskState extends State<AddTask> {
                   CustButton(
                       innerText: 'Add Task',
                       onTP: () {
-                        AddTask(taskTitle.text, dueDate.text, desc.text,);
+                        addTask(taskTitle.text, dueDate.text, desc.text,);
                       },
                       wid: MediaQuery.of(context).size.width * 0.94,
                       heig: MediaQuery.of(context).size.width * 0.15),
@@ -114,7 +114,7 @@ class _AddTaskState extends State<AddTask> {
           builder: (BuildContext context) {
             return const AlertDialog(
               //title: Text("Success"),
-              content: Text("Please enter item name "),
+              content: Text("Please enter task title "),
             );
           });
       return false;
@@ -125,33 +125,24 @@ class _AddTaskState extends State<AddTask> {
           builder: (BuildContext context) {
             return const AlertDialog(
               //title: Text("Success"),
-              content: Text("Please enter purchase date "),
+              content: Text("Please enter task due date "),
             );
           });
       return false;
     }
-    if (desc == "") {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return const AlertDialog(
-              //title: Text("Success"),
-              content: Text("Please enter desc"),
-            );
-          });
-      return false;
-    }
-    // if (itemPr.toString() == "") {
+    // Description is optional, so no checks
+    // if (desc == "") {
     //   showDialog(
     //       context: context,
     //       builder: (BuildContext context) {
     //         return const AlertDialog(
     //           //title: Text("Success"),
-    //           content: Text("Please enter item price "),
+    //           content: Text("Please enter Description"),
     //         );
     //       });
     //   return false;
     // }
+    
 
     return true;
   }
@@ -160,37 +151,47 @@ class _AddTaskState extends State<AddTask> {
     Navigator.pop(context);
   }
 
-  AddTask(String title, String dueDate, String desc,) async {
+  addTask(String title, String dueDate, String desc,) async {
     //Checking if all data is typed
 
     bool fieldsFilled = checkFields(title, dueDate, desc);
 
     if (fieldsFilled) {
-      List<Task>? allItems;
-      allItems = await ComDB.showAllData();
+      List<Task>? allTasks;
+      allTasks = await ComDB.showAllData();
 
-      if (allItems.isEmpty) {
+      DateTime selectedDate = DateTime.now();
+      List<String> dateList = selectedDate.toString().split(" ");
+      String todaysDate = dateList[0];
+
+      if (allTasks.isEmpty) {
         //Adding data to the local database
-        var trans = Task(
+        var tsk = Task(
             id: 1,
             taskTitle: title,
             dueDate: dueDate,
             desc: desc,
+            status: "Incomplete",
+            creationDate: todaysDate,
+            updatedDate: ""
             // desc: itemPr
             );
-        await ComDB.insertData(trans);
+        await ComDB.insertData(tsk);
       } else {
-        int index = allItems[allItems.length - 1].id;
+        int index = allTasks[allTasks.length - 1].id;
         index += 1;
 
-        var trans = Task(
+        var tsk = Task(
             id: index,
             taskTitle: title,
             dueDate: dueDate,
             desc: desc,
+            status: "Incomplete",
+            creationDate: todaysDate,
+            updatedDate: ""
             // desc: itemPr
             );
-        await ComDB.insertData(trans);
+        await ComDB.insertData(tsk);
       }
       goBack();
     }

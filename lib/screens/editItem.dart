@@ -4,7 +4,7 @@ import 'package:to_do_list/widgets/cust_date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do_list/database/DB.dart';
 import 'package:to_do_list/database/task.dart';
-import 'package:to_do_list/widgets/cust_item_list_tile.dart';
+import 'package:to_do_list/widgets/cust_task_list_tile.dart';
 
 class EditItem extends StatefulWidget {
   const EditItem({super.key});
@@ -40,7 +40,7 @@ class _EditItemState extends State<EditItem> {
               const Center(
                 child: SizedBox(
                   child: Text(
-                    "View Expenses",
+                    "Edit Tasks",
                     style: TextStyle(fontSize: 25, color: Colors.black),
                   ),
                 ),
@@ -65,7 +65,7 @@ class _EditItemState extends State<EditItem> {
                   ),
 
                   CustButton(
-                      innerText: 'Display Expenses',
+                      innerText: 'Display Tasks',
                       onTP: dispItems,                      
                       wid: MediaQuery.of(context).size.width * 0.94,
                       heig: MediaQuery.of(context).size.width * 0.15),
@@ -80,7 +80,7 @@ class _EditItemState extends State<EditItem> {
               ),
               itemTiles.isEmpty
                   ? Container()
-                  : Container(                     
+                  : Container(                 
                       width: MediaQuery.of(context).size.width * 0.95,
                       height: MediaQuery.of(context).size.height * 0.05,
                       decoration: const BoxDecoration(
@@ -91,15 +91,15 @@ class _EditItemState extends State<EditItem> {
                         children: [
                           SizedBox(                            
                             width: 85,
-                            child: Text('Date'),
+                            child: Text('Due Date'),
                           ),
                           SizedBox(                            
                             width: 135,
-                            child: Text('Item Name'),
+                            child: Text('Task Name'),
                           ),
                           SizedBox(                            
-                            width: 65,
-                            child: Text('Price'),
+                            width: 75,
+                            child: Text('Status'),
                           ),                          
                         ],
                       ),
@@ -145,7 +145,7 @@ class _EditItemState extends State<EditItem> {
           sDateText != "null" &&
           eDateText != "" &&
           eDateText != "null") {
-        List<Widget> itemInfoTiles = [];
+        List<Widget> taskInfoTiles = [];
 
         while (
             starDate.millisecondsSinceEpoch <= enDate.millisecondsSinceEpoch) {
@@ -153,17 +153,17 @@ class _EditItemState extends State<EditItem> {
           sDateText = dateList[0];
 
           //Load Add transactions done on start date
-          List<Task> dayPurch = await ComDB.showDayTrans(sDateText);
+          List<Task> dayTasks = await ComDB.showDayTasks(sDateText);
 
           //Add all the expenses from those transactions
-          if (dayPurch.isNotEmpty) {
-            for (int j = 0; j < dayPurch.length; j++) {
-              // totalExpenses = totalExpenses + dayPurch[j].itemPrice;
-              itemInfoTiles.add(CustItemListTile(
-                item: dayPurch[j],
+          if (dayTasks.isNotEmpty) {
+            for (int j = 0; j < dayTasks.length; j++) {
+              // totalExpenses = totalExpenses + dayTasks[j].itemPrice;
+              taskInfoTiles.add(CustItemListTile(
+                task: dayTasks[j],
                 refreshPg: reloadOnEdit,
               ));
-              itemInfoTiles.add(const SizedBox(
+              taskInfoTiles.add(const SizedBox(
                 height: 10,
               ));
             }
@@ -171,9 +171,9 @@ class _EditItemState extends State<EditItem> {
           // numberOfDays += 1;
           starDate =
               DateTime(starDate.year, starDate.month, (starDate.day + 1));
-        }        
+        }
 
-        itemTiles = itemInfoTiles;
+        itemTiles = taskInfoTiles;
         setState(() {});
 
         //Display the values

@@ -14,11 +14,14 @@ class ComDB {
       // Ensure the path is correctly for any platform
       join(await getDatabasesPath(), "hero_database.db"),
       onCreate: (db, version) {
-        return db.execute("CREATE TABLE EXPENSES("
+        return db.execute("CREATE TABLE TASKS("
             "id INTEGER PRIMARY KEY,"
             "taskTitle TEXT,"
             "dueDate TEXT,"
-            "desc TEXT"
+            "desc TEXT,"
+            "status TEXT,"
+            "creationDate TEXT,"
+            "updatedDate TEXT"
             ")");
       },
 
@@ -41,7 +44,7 @@ class ComDB {
   // Show all data
   static Future<List<Task>> showAllData() async {
     final Database db = await getDatabaseConnect();
-    final List<Map<String, dynamic>> maps = await db.query("EXPENSES");
+    final List<Map<String, dynamic>> maps = await db.query("TASKS");
 
     return List.generate(maps.length, (i) {
       return Task(
@@ -49,29 +52,32 @@ class ComDB {
         taskTitle: maps[i]["taskTitle"],
         dueDate: maps[i]["dueDate"],
         desc: maps[i]["desc"],
+        status: maps[i]["status"],
+        creationDate: maps[i]["creationDate"],
+        updatedDate: maps[i]["updatedDate"],
         // itemPrice: maps[i]["itemPrice"],
       );
     });
   }
 
   // Insert
-  static Future<void> insertData(Task ite) async {
+  static Future<void> insertData(Task tsk) async {
     final Database db = await getDatabaseConnect();
     await db.insert(
-      "EXPENSES",
-      ite.toMap(),
+      "TASKS",
+      tsk.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
   // Update
-  static Future<void> updateData(Task ite) async {
+  static Future<void> updateData(Task tsk) async {
     final db = await getDatabaseConnect();
     await db.update(
-      "EXPENSES",
-      ite.toMap(),
+      "TASKS",
+      tsk.toMap(),
       where: "id = ?",
-      whereArgs: [ite.id],
+      whereArgs: [tsk.id],
     );
   }
 
@@ -79,34 +85,37 @@ class ComDB {
   static Future<void> deleteData(int id) async {
     final db = await getDatabaseConnect();
     await db.delete(
-      "EXPENSES",
+      "TASKS",
       where: "id = ?",
       whereArgs: [id],
     );
   }
 
   // Show month transactions
-  static Future<List<Task>> showMonthTrans(String itemExpMonth) async {
-    final Database db = await getDatabaseConnect();
-    final List<Map<String, dynamic>> maps = await db.rawQuery(
-        "SELECT * FROM EXPENSES WHERE dueDate LIKE '$itemExpMonth%'");
+  // static Future<List<Task>> showMonthTrans(String itemExpMonth) async {
+  //   final Database db = await getDatabaseConnect();
+  //   final List<Map<String, dynamic>> maps = await db.rawQuery(
+  //       "SELECT * FROM TASKS WHERE dueDate LIKE '$itemExpMonth%'");
 
-    return List.generate(maps.length, (i) {
-      return Task(
-        id: maps[i]["id"],
-        taskTitle: maps[i]["taskTitle"],
-        dueDate: maps[i]["dueDate"],
-        desc: maps[i]["desc"],
-        // itemPrice: maps[i]["itemPrice"],
-      );
-    });
-  }
+  //   return List.generate(maps.length, (i) {
+  //     return Task(
+  //       id: maps[i]["id"],
+  //       taskTitle: maps[i]["taskTitle"],
+  //       dueDate: maps[i]["dueDate"],
+  //       desc: maps[i]["desc"],
+  //       status: maps[i]["status"],
+  //       creationDate: maps[i]["creationDate"],
+  //       updatedDate: maps[i]["updatedDate"],
+  //       // itemPrice: maps[i]["itemPrice"],
+  //     );
+  //   });
+  // }
 
   // Show transactions on a certain day
-  static Future<List<Task>> showDayTrans(String itemExpDay) async {
+  static Future<List<Task>> showDayTasks(String taskDueDay) async {
     final Database db = await getDatabaseConnect();
     final List<Map<String, dynamic>> maps = await db.rawQuery(
-        "SELECT * FROM EXPENSES WHERE dueDate LIKE '$itemExpDay%'");
+        "SELECT * FROM TASKS WHERE dueDate LIKE '$taskDueDay%'");
 
     return List.generate(maps.length, (i) {
       return Task(
@@ -114,6 +123,9 @@ class ComDB {
         taskTitle: maps[i]["taskTitle"],
         dueDate: maps[i]["dueDate"],
         desc: maps[i]["desc"],
+        status: maps[i]["status"],
+        creationDate: maps[i]["creationDate"],
+        updatedDate: maps[i]["updatedDate"],
         // itemPrice: maps[i]["itemPrice"],
       );
     });
@@ -124,7 +136,7 @@ class ComDB {
       String itemExpDay, String catry) async {
     final Database db = await getDatabaseConnect();
     final List<Map<String, dynamic>> maps = await db.rawQuery(
-        "SELECT * FROM EXPENSES WHERE dueDate LIKE '$itemExpDay%' AND desc LIKE '$catry%'");
+        "SELECT * FROM TASKS WHERE dueDate LIKE '$itemExpDay%' AND desc LIKE '$catry%'");
 
     return List.generate(maps.length, (i) {
       return Task(
@@ -132,6 +144,9 @@ class ComDB {
         taskTitle: maps[i]["taskTitle"],
         dueDate: maps[i]["dueDate"],
         desc: maps[i]["desc"],
+        status: maps[i]["status"],
+        creationDate: maps[i]["creationDate"],
+        updatedDate: maps[i]["updatedDate"],
         // itemPrice: maps[i]["itemPrice"],
       );
     });

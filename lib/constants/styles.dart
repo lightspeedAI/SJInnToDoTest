@@ -31,3 +31,6 @@ Color color3=  const Color.fromARGB(255, 255, 200, 87);
 Color color4 = const Color(0xFF00120b);
 Color color5 = const Color.fromARGB(255, 216, 228, 255);
 Color color6 = const Color.fromARGB(255, 120, 190, 32);
+
+Color colorFalse = const Color.fromARGB(255, 255, 116, 116);
+Color colorTrue = const Color.fromARGB(255, 144, 207, 142);
