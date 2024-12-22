@@ -43,10 +43,9 @@ class _ViewTasksState extends State<ViewTasks> {
                 ),
               ),
               const SizedBox(
-                height: 50,
+                height: 25,
               ),
-              SizedBox(
-                // color: Colors.red,
+              SizedBox(                
                 height: MediaQuery.of(context).size.height * 0.75,
                 width: MediaQuery.of(context).size.width * 0.95,
                 child: ListView(
@@ -65,10 +64,9 @@ class _ViewTasksState extends State<ViewTasks> {
   displayAllTasks() async {
     List<Task> allTasks = await ComDB.showAllData();
     List<Widget> taskInfoTiles = [];
-
     if (allTasks.isNotEmpty) {
       for (int j = 0; j < allTasks.length; j++) {
-        taskInfoTiles.add(CustTaskTile2(task: allTasks[j]));
+        taskInfoTiles.add(CustTaskTile2(task: allTasks[j], refreshPg: reloadOnEdit,));
         taskInfoTiles.add(const SizedBox(
           height: 10,
         ));
@@ -77,5 +75,9 @@ class _ViewTasksState extends State<ViewTasks> {
 
     itemTiles = taskInfoTiles;
     setState(() {});
+  }
+
+  reloadOnEdit() {
+    displayAllTasks();
   }
 }
