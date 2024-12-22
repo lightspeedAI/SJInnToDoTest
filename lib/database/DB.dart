@@ -82,7 +82,7 @@ class ComDB {
   }
 
   // Delete
-  static Future<void> deleteData(int id) async {
+  static Future<void> deleteTask(int id) async {
     final db = await getDatabaseConnect();
     await db.delete(
       "TASKS",
@@ -91,27 +91,26 @@ class ComDB {
     );
   }
 
-  // Show month transactions
-  // static Future<List<Task>> showMonthTrans(String itemExpMonth) async {
-  //   final Database db = await getDatabaseConnect();
-  //   final List<Map<String, dynamic>> maps = await db.rawQuery(
-  //       "SELECT * FROM TASKS WHERE dueDate LIKE '$itemExpMonth%'");
+  //Show tasks by keyword
+  static Future<List<Task>> searchByTitle(String keyWord) async {
+    final Database db = await getDatabaseConnect();
+    final List<Map<String, dynamic>> maps = await db
+        .rawQuery("SELECT * FROM TASKS WHERE taskTitle LIKE '%$keyWord%'");
 
-  //   return List.generate(maps.length, (i) {
-  //     return Task(
-  //       id: maps[i]["id"],
-  //       taskTitle: maps[i]["taskTitle"],
-  //       dueDate: maps[i]["dueDate"],
-  //       desc: maps[i]["desc"],
-  //       status: maps[i]["status"],
-  //       creationDate: maps[i]["creationDate"],
-  //       updatedDate: maps[i]["updatedDate"],
-  //       // itemPrice: maps[i]["itemPrice"],
-  //     );
-  //   });
-  // }
+    return List.generate(maps.length, (i) {
+      return Task(
+        id: maps[i]["id"],
+        taskTitle: maps[i]["taskTitle"],
+        dueDate: maps[i]["dueDate"],
+        desc: maps[i]["desc"],
+        status: maps[i]["status"],
+        creationDate: maps[i]["creationDate"],
+        updatedDate: maps[i]["updatedDate"],
+      );
+    });
+  }
 
-  // Show transactions on a certain day
+  // Show tasks on a certain day
   static Future<List<Task>> showDayTasks(String taskDueDay) async {
     final Database db = await getDatabaseConnect();
     final List<Map<String, dynamic>> maps = await db.rawQuery(
@@ -131,7 +130,7 @@ class ComDB {
     });
   }
 
-  // Show transactions by desc
+  // Show tasks by desc
   static Future<List<Task>> showCatTrans(
       String itemExpDay, String catry) async {
     final Database db = await getDatabaseConnect();
