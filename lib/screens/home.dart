@@ -1,7 +1,6 @@
 import 'package:to_do_list/constants/styles.dart';
-import 'package:to_do_list/screens/editItem.dart';
-import 'package:to_do_list/screens/viewExpenses1.dart';
 import 'package:flutter/material.dart';
+import 'package:to_do_list/screens/searchItem.dart';
 import 'package:to_do_list/screens/view_tasks.dart';
 import 'package:to_do_list/widgets/cust_icon.dart';
 import 'add_task.dart';
@@ -23,13 +22,14 @@ class _HomeScreenState extends State<HomeScreen> {
         height: MediaQuery.of(context).size.height,
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: ListView(
-            children: <Widget>[
-              // SizedBox(height: 50,),
-              SizedBox(
-                height: MediaQuery.of(context).size.height ,                
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 50,),
+              SizedBox(                
+                height: MediaQuery.of(context).size.height* 0.5 ,                
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [                    
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -47,22 +47,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         CustomIcon(
                           insideIcon: Icon(
-                            Icons.edit_note_outlined,
-                            color: Colors.white,
-                            size: MediaQuery.of(context).size.width / 3.5,
-                          ),
-                          iconColor: color6,
-                          textColor: Colors.white,
-                          iconText: "Edit Tasks",
-                          pageToNav: (context) => const EditItem(),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        CustomIcon(
-                          insideIcon: Icon(
                             Icons.view_list_rounded,
                             color: Colors.white,
                             size: MediaQuery.of(context).size.width / 3.5,
@@ -72,48 +56,28 @@ class _HomeScreenState extends State<HomeScreen> {
                           iconText: "View Tasks",
                           pageToNav: (context) => const ViewTasks(),
                         ),
-                        // CustomIcon(
-                        //   insideIcon: Icon(
-                        //     Icons.search_rounded,
-                        //     color: Colors.white,
-                        //     size: MediaQuery.of(context).size.width / 3.5,
-                        //   ),
-                        //   iconColor: color3,
-                        //   textColor: Colors.white,
-                        //   iconText: "Search Tasks",
-                        //   pageToNav: (context) => const EditItem(),
-                        // ),
-                        CustomIcon(
-                          insideIcon: Icon(
-                            Icons.delete,
-                            color: Colors.white,
-                            size: MediaQuery.of(context).size.width / 3.5,
-                          ),
-                          iconColor: color4,
-                          textColor: Colors.white,
-                          iconText: "Delete Tasks",
-                          pageToNav: (context) => const ViewExpenses1(),
-                        ),
+                        
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [                        
+                      children: [
                         CustomIcon(
                           insideIcon: Icon(
                             Icons.search_rounded,
                             color: Colors.white,
                             size: MediaQuery.of(context).size.width / 3.5,
                           ),
-                          iconColor: color1,
+                          iconColor: color2,
                           textColor: Colors.white,
                           iconText: "Search Tasks",
-                          pageToNav: (context) => const EditItem(),
+                          pageToNav: (context) => const SearchItem(),
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 2.2,
-                        ),
-                      ]),
+                        )
+                      ],
+                    ),                    
                   ],
                 ),
               )
