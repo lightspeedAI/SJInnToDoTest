@@ -1,1 +1,0 @@
-var catops = ['Food', 'Electricity', 'Other Bills', 'Maintenance', 'Hobbies',];
