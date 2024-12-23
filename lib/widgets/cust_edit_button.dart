@@ -8,7 +8,7 @@ class CustEditButton extends StatelessWidget {
   
   final VoidCallback refreshPg;
   final Task task;
-  CustEditButton({super.key,
+  const CustEditButton({super.key,
   required this.refreshPg,
   required this.task,
   });
